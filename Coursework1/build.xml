@@ -1,0 +1,45 @@
+<project name="HCICoursework" default="compile" basedir=".">
+    <description>
+      HCI coursework for s0840449 and s0838969.
+    </description>
+
+  <property name="src" location="src"/>
+  <property name="test" location="tests"/>
+  <property name="bin" location="bin"/>
+
+  <path id="classpath.base">
+  </path>
+  <path id="classpath.test">
+    <pathelement location="/usr/lib64/eclipse/dropins/jdt/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar" />
+    <pathelement location="${bin}" />
+    <path refid="classpath.base" />
+  </path>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${bin}"/>
+  </target>
+
+  <target name="compile" depends="init" description="compile the application" >
+    <copy todir="${bin}/icons">
+      <fileset dir="icons"/>
+    </copy>
+    
+    <javac debug="true" verbose="true" srcdir="${src}" destdir="${bin}"/>
+    <javac debug="true" srcdir="${test}" destdir="${bin}" verbose="true">
+      <classpath refid="classpath.test"/> 
+    </javac>
+  </target>
+
+  <target name="test" depends="compile">
+    <junit>
+      <classpath refid="classpath.test" /> 
+     <formatter type="brief" usefile="false" />
+      <test name="tests.PointTest" />
+    </junit>
+  </target> 
+
+  <target name="clean" description="clean up" >
+    <delete dir="${bin}"/>
+  </target>
+</project>
